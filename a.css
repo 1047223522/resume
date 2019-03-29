@@ -40,6 +40,8 @@ div>nav>ul>li{
 .logo{
     font-size: 24px;
     font-family: "Arial Black";
+    padding-top: 3px;
+    padding-bottom: 4px;
 }
 .TopNavBar>.logo>.rs{
     margin-right: 4px;
@@ -49,7 +51,7 @@ div>nav>ul>li{
     color: rgb(154,157, 162)
 }
 .TopNavBar>nav{
-    padding-top: 2px;
+    padding-top: 7px;
 }
 .TopNavBar{
     padding-top: 20px;
