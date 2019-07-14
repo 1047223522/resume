@@ -8,36 +8,46 @@
     <link rel="stylesheet" href="./a.css">
     <script src="//at.alicdn.com/t/font_451045_32zbfqegtq3t0529.js"></script>
     <style type="text/css">
-      .icon {
-        width: 1em;
-        height: 1em;
-        vertical-align: -0.15em;
-        fill: currentColor;
-        overflow: hidden;
-      }
+      .icon { width: 1em; height: 1em; vertical-align: -0.15em; fill: currentColor; overflow: hidden; }
     </style>
 </head>
 <body>
-    <div class="TopNavBar clearfix">
+    <div class="loadingPage active" id="loadingPage"></div>
+
+    <div class="TopNavBar clearfix" id="TopNavBar">
         <div class="logo" style="float: left;">
            <span class="rs">RS</span><span class="card">card</span>
         </div>
         <NAV style="float: right;">
             <ul class="clearfix">
-                <li><a href="#">关于</a></li>
-                <li><a href="#">技能</a></li>
-                <li><a href="#">作品</a></li>
-                <li><a href="#">博客</a></li>
-                <li><a href="#">日历</a></li>
-                <li><a href="#">联系方式</a></li>
-                <li><a href="#">其他</a></li>
+                <li class="upmenu"><a href="#about">关于</a></li>
+                <li class="upmenu"> <a href="#skill">技能</a> </li>
+                <li class="upmenu" id="upmenu">
+                    <a href="#portfolio">作品</a>
+                    <ul class="submenu" id="submenu">
+                        <li>作品1</li>
+                        <li>作品2</li>
+                        <li>作品3</li>
+                    </ul>
+                </li>
+                <li  class="upmenu" id="upmenu"> 
+                    <a href="#">博客</a>
+                    <ul class="submenu" id="submenu">
+                            <li>博客1</li>
+                            <li>博客2</li>
+                            <li>博客3</li>
+                        </ul>
+                </li>
+                <li class="upmenu"><a href="#">日历</a></li>
+                <li class="upmenu"><a href="#">联系方式</a></li>
+                <li class="upmenu"><a href="#">其他</a></li>
             </ul>
         </NAV>
     </div>
     <div class="banner" style="background-image: url(./img/backgroudpicture.jpg)">
         <div class="bgcolor"></div>
     </div>
-    <main>
+    <main id="about">
         <div class="pictureandtext clearfix">
             <div class="picture" style="float: left; margin-right: 65px;">
                 <img src="./img/picture.png" alt="" height="347px">
@@ -47,7 +57,7 @@
                     <div class="welcome">hello
                         <div class="triangle"></div>
                     </div>           
-                    <h1>傅宇航</h1>
+                    <h1>山 音</h1>
                     <p>前端开发工程师</p> 
                     <hr>
                     <dl class="information clearfix">    
@@ -89,7 +99,7 @@
         方应杭， 资深前端工程师，资深前端讲师，现在在 饥人谷 教前端课程。<br>
         技能：前端开发，Rails 开发，Node.js 开发
     </p>
-    <section class="skill">
+    <section class="skill" id="skill">
         <h2>技能</h2>
         <ol class="clearfix">
             <li>
@@ -130,7 +140,7 @@
             </li>
         </ol>
     </section>
-    <section class="portfolio">
+    <section class="portfolio" id='portfolio'>
         <h2>作品集</h2>
         <nav>
             <ol class="clearfix">
@@ -165,7 +175,45 @@
             </div>
         </div>
     </section>
- 
+    <script>
+        setTimeout(function(){
+            loadingPage.classList.remove('active')
+        },1000)
+
+        window.onscroll = function(x){
+            if(window.scrollY>0){
+                TopNavBar.classList.add('sticky')
+            }else{
+                TopNavBar.classList.remove('sticky')
+            }
+        }
+
+        let liTags = document.getElementsByClassName('upmenu')
+        for(i=0;i<liTags.length;i++){
+            liTags[i].onmouseenter = function(x){
+                let li = x.currentTarget
+                li.classList.add('active')
+            }
+            liTags[i].onmouseleave = function(x){
+                let li = x.currentTarget
+                li.classList.remove('active')
+            }
+        }
+
+        let aTags = document.querySelectorAll('.TopNavBar>nav>ul>li>a')
+        for(i=0;i<aTags.length;i++){
+            aTags[i].onclick = function(x){
+                x.preventDefault()
+                let a = x.currentTarget
+                let href = a.getAttribute('href')
+                let element = document.querySelector(href)
+                let top = element.offsetTop
+                window.scrollTo(0,top-80)
+            }
+            
+        }
+    </script>
+
 
 </body>
 </html>
