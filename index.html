@@ -20,7 +20,6 @@
 </head>
 
 <body>
-    <div class="loadingPage active" id="loadingPage"></div>
 
     <div class="TopNavBar clearfix" id="TopNavBar">
         <div class="logo" style="float: left;">
@@ -55,7 +54,7 @@
     <div class="banner" style="background-image: url(./img/backgroudpicture.jpg)">
         <div class="bgcolor"></div>
     </div>
-    <main id="about">
+    <main data-x id="about" >
         <div class="pictureandtext clearfix">
             <div class="picture" style="float: left; margin-right: 65px;">
                 <img src="./img/picture.png" alt="" height="347px">
@@ -102,12 +101,11 @@
     <p class="botton">
         <a class="botton " href="#">下载PDF简历</a>
     </p>
-
     <p class="selfintroduction">
         方应杭， 资深前端工程师，资深前端讲师，现在在 饥人谷 教前端课程。<br>
         技能：前端开发，Rails 开发，Node.js 开发
     </p>
-    <section class="skill" id="skill">
+    <section data-x class="skill" id="skill" >
         <h2>技能</h2>
         <ol class="clearfix">
             <li>
@@ -148,7 +146,7 @@
             </li>
         </ol>
     </section>
-    <section class="portfolio" id='portfolio'>
+    <section data-x class="portfolio" id='portfolio'>
         <h2>作品集</h2>
         <nav>
             <ol class="clearfix">
@@ -185,16 +183,43 @@
     </section>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.4.0/Tween.min.js"></script>
     <script>
-        setTimeout(function () {
-            loadingPage.classList.remove('active')
-        }, 1000)
 
+        let specialTags = document.querySelectorAll('[data-x]')
+            for (let i = 0; i < specialTags.length; i++) {
+                specialTags[i].classList.add('offset')
+            }
+
+        function yyy(){
+            let minIndex = 0
+            let specialTags = document.querySelectorAll('[data-x]')
+            for (let i = 0; i < specialTags.length; i++) {
+                if(Math.abs(specialTags[i].offsetTop - window.scrollY) < Math.abs(specialTags[minIndex].offsetTop - window.scrollY)){
+                    minIndex = i
+                }
+            }
+            specialTags[minIndex].classList.remove('offset')  
+            let id = specialTags[minIndex].id
+            let a = document.querySelector('a[href="#'+id+'"]')
+            let li = a.parentNode
+            let brothersAndMe = li.parentNode.children
+            for(let i = 0;i<brothersAndMe.length;i++){
+                brothersAndMe[i].classList.remove('highlight')
+            }
+            li.classList.add('highlight')
+        }
+
+        setTimeout(function(){
+            yyy()
+        }, 500)
+        
         window.onscroll = function (x) {
             if (window.scrollY > 0) {
                 TopNavBar.classList.add('sticky')
             } else {
                 TopNavBar.classList.remove('sticky')
             }
+
+            yyy()
         }
 
         let liTags = document.getElementsByClassName('upmenu')
@@ -212,10 +237,10 @@
         let aTags = document.querySelectorAll('.TopNavBar>nav>ul>li>a')
 
         function animate(time) {
-                    requestAnimationFrame(animate);
-                    TWEEN.update(time);
-                }
-                requestAnimationFrame(animate);
+            requestAnimationFrame(animate);
+            TWEEN.update(time);
+        }
+        requestAnimationFrame(animate);
 
         for (i = 0; i < aTags.length; i++) {
             aTags[i].onclick = function (x) {
@@ -224,7 +249,6 @@
                 let href = a.getAttribute('href')
                 let element = document.querySelector(href)
                 let top = element.offsetTop
-                window.scrollTo(0, top - 80)
 
                 let currentTop = window.scrollY
                 let targetTop = top - 80
@@ -232,21 +256,15 @@
 
 
                 var coords = { y: currentTop }; // Start at (0, 0)
-                var t = Math.abs((s/100)*300)
-                console.log('targetTop是'+targetTop)
-                console.log('currentTop是'+currentTop)
-                console.log('t是'+t)
-                console.log('s是'+s)
-                if(t>500){t = 500}
+                var t = Math.abs((s / 100) * 300)
+                if (t > 500) { t = 500 }
                 var tween = new TWEEN.Tween(coords) // Create a new tween that modifies 'coords'.
                     .to({ y: targetTop }, t) // Move to (300, 200) in 1 second.
                     .easing(TWEEN.Easing.Quadratic.InOut) // Use an easing function to make the animation smooth.
-                    .onUpdate( function() {
-                        window.scrollTo(0,coords.y) 
-                        console.log(coords.y)
+                    .onUpdate(function () {
+                        window.scrollTo(0, coords.y)
                     })
                     .start(); // Start the tween immediately.window.scrollTo(0,coords.y)
-
             }
 
         }
